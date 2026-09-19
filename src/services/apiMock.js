@@ -77,5 +77,23 @@ function create(author, blueprint) {
   return delay(clonePlan(DB[author][blueprint.name]));
 }
 
-export const apiMock = { getAll, getByAuthor, getByAuthorAndName, create };
+/** PUT /api/blueprints/{author}/{name} */
+function update(author, name, blueprint) {
+  if (!DB[author]?.[name]) {
+    return Promise.reject(new Error(`Blueprint "${name}" de "${author}" no encontrado`));
+  }
+  DB[author][name] = clonePlan({ ...blueprint, name });
+  return delay(clonePlan(DB[author][name]));
+}
+
+/** DELETE /api/blueprints/{author}/{name} */
+function remove(author, name) {
+  if (!DB[author]?.[name]) {
+    return Promise.reject(new Error(`Blueprint "${name}" de "${author}" no encontrado`));
+  }
+  delete DB[author][name];
+  return delay({ author, name });
+}
+
+export const apiMock = { getAll, getByAuthor, getByAuthorAndName, create, update, remove };
 export default apiMock;

@@ -1,4 +1,9 @@
-function BlueprintsTable({ plans = [], onOpen, activeName }) {
+import { useSelector } from 'react-redux';
+import { selectIsAuthenticated } from '../features/auth/authSlice.js';
+
+function BlueprintsTable({ plans = [], onOpen, onEdit, onDelete, activeName }) {
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
   if (plans.length === 0) {
     return <p className="text-muted">No hay planos para mostrar todavía.</p>;
   }
@@ -18,9 +23,21 @@ function BlueprintsTable({ plans = [], onOpen, activeName }) {
             <td>{plan.name}</td>
             <td>{plan.points.length}</td>
             <td className="text-end">
-              <button type="button" className="btn btn-sm btn-outline-primary" onClick={() => onOpen(plan.name)}>
-                Open
-              </button>
+              <div className="btn-group">
+                <button type="button" className="btn btn-sm btn-outline-primary" onClick={() => onOpen(plan.name)}>
+                  Open
+                </button>
+                {isAuthenticated && onEdit && (
+                  <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => onEdit(plan.name)}>
+                    Editar
+                  </button>
+                )}
+                {isAuthenticated && onDelete && (
+                  <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => onDelete(plan.name)}>
+                    Eliminar
+                  </button>
+                )}
+              </div>
             </td>
           </tr>
         ))}

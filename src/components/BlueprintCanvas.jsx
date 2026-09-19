@@ -6,8 +6,11 @@ const CANVAS_HEIGHT = 360;
 /**
  * Lienzo que dibuja consecutivamente los segmentos de recta de un
  * blueprint (arreglo de puntos {x, y}) y marca cada punto.
+ *
+ * Modo interactivo: cuando se pasa `onAddPoint`, un clic sobre el
+ * lienzo agrega un punto en esa posición (dibujo interactivo).
  */
-function BlueprintCanvas({ points = [] }) {
+function BlueprintCanvas({ points = [], onAddPoint }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -37,6 +40,17 @@ function BlueprintCanvas({ points = [] }) {
     });
   }, [points]);
 
+  function handleClick(event) {
+    if (!onAddPoint) return;
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / (rect.width || canvas.width);
+    const scaleY = canvas.height / (rect.height || canvas.height);
+    const x = Math.round((event.clientX - rect.left) * scaleX);
+    const y = Math.round((event.clientY - rect.top) * scaleY);
+    onAddPoint({ x, y });
+  }
+
   return (
     <canvas
       id="blueprint-canvas"
@@ -44,7 +58,10 @@ function BlueprintCanvas({ points = [] }) {
       ref={canvasRef}
       width={CANVAS_WIDTH}
       height={CANVAS_HEIGHT}
-      className="border rounded bg-white"
+      className={`border rounded bg-white${onAddPoint ? ' cursor-crosshair' : ''}`}
+      onClick={handleClick}
+      role={onAddPoint ? 'button' : undefined}
+      aria-label={onAddPoint ? 'Lienzo interactivo: haz clic para agregar un punto' : undefined}
     />
   );
 }

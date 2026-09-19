@@ -25,5 +25,18 @@ async function create(author, blueprint) {
   return data;
 }
 
-export const apiRemote = { getAll, getByAuthor, getByAuthorAndName, create };
+async function update(author, name, blueprint) {
+  const { data } = await httpClient.put(
+    `/blueprints/${encodeURIComponent(author)}/${encodeURIComponent(name)}`,
+    blueprint
+  );
+  return data;
+}
+
+async function remove(author, name) {
+  await httpClient.delete(`/blueprints/${encodeURIComponent(author)}/${encodeURIComponent(name)}`);
+  return { author, name };
+}
+
+export const apiRemote = { getAll, getByAuthor, getByAuthorAndName, create, update, remove };
 export default apiRemote;
