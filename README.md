@@ -1,5 +1,6 @@
 # Blueprints React Lab
 # Alumnos: Keyla Y. Serna Illescas - Esteban Valente Arenas
+# Link del reporte: https://pruebacorreoescuelaingeduco-my.sharepoint.com/:w:/g/personal/keyla_serna-i_mail_escuelaing_edu_co/IQAOBF_6h7BKToOPrJpCDgnlAV4RsZCQD-MGtwNLxpz3k70?e=dNKFnj
 
 Cliente SPA en React para el sistema de Blueprints, construido con **React + Vite**, **Redux Toolkit**, **Axios** (con interceptores JWT), **React Router** y pruebas con **Vitest + Testing Library**.
 
