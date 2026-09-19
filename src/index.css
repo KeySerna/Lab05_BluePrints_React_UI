@@ -1,0 +1,13 @@
+body {
+  background-color: #f5f7fb;
+}
+
+#blueprint-canvas {
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
