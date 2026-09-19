@@ -8,5 +8,10 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: './tests/setup.js',
+    // Los tests siempre corren contra el servicio mock, sin depender
+    // de que exista un .env local (por ejemplo en CI).
+    env: {
+      VITE_USE_MOCK: 'true',
+    },
   },
 })
